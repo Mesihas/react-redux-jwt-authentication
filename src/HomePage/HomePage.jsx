@@ -3,10 +3,35 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { userActions } from '../_actions';
+import { formActions } from '../_actions';
 
 class HomePage extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+        username: '',
+        password: '',
+        submitted: false
+    };
+
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+}
+
     componentDidMount() {
         this.props.dispatch(userActions.getAll());
+    }
+
+    handleSubmit(e) {
+      e.preventDefault();
+
+     // this.setState({ submitted: true });
+   //   const { username, password } = this.state;
+      const { dispatch } = this.props;
+     // if (username && password) {
+          dispatch(formActions.getLookupData());
+     // }
     }
 
     render() {
@@ -27,20 +52,32 @@ class HomePage extends React.Component {
                         )}
                     </ul>
                 }
+
                 <p>
                     <Link to="/login">Logout</Link>
                 </p>
+
+                <h2>get data</h2>
+                <form name="form" onSubmit={this.handleSubmit}>
+                    <div className="form-group">
+                        <button className="btn btn-primary">Get Data</button>
+
+                    </div>
+                </form> 
             </div>
+            
         );
     }
 }
 
+
 function mapStateToProps(state) {
-    const { users, authentication } = state;
+    const { users, authentication, lookupData } = state;
     const { user } = authentication;
     return {
         user,
-        users
+        users,
+        lookupData
     };
 }
 
