@@ -12,7 +12,7 @@ function getLookupData() {
         headers: authHeader()
     };
 
-    return fetch(`${config.apiUrl}/api/jojo`, requestOptions).then(handleResponse);
+    return fetch(`${config.apiUrl}/values/getLookupData`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {
