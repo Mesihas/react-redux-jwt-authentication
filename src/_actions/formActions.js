@@ -15,7 +15,7 @@ function getLookupData() {
         formService.getLookupData()
             .then(          
                 respData => {
-                  console.log("respdata: " + respData);
+              //    console.log("respdata: " + respData);
                   dispatch(success(respData))},
                 error => dispatch(failure(error))
             );

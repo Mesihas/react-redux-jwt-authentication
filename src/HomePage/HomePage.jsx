@@ -1,29 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-
 import { userActions } from '../_actions';
 import { formActions } from '../_actions';
-import { Dropdown } from 'semantic-ui-react';
-import   Formu   from '../_components';
+import Formu from '../_components/formu';
 import config from 'config';
-
-
-import {
-  Button,
-  Checkbox,
-  Form,
-  Input,
-  Radio,
-  Select,
-  TextArea,
-} from 'semantic-ui-react'
-
-const options = [
-  { key: 'm', text: 'Male', value: 'male' },
-  { key: 'f', text: 'Female', value: 'female' },
-  { key: 'o', text: 'Other', value: 'other' },
-]
 
 const friendOptions = [
   {
@@ -110,19 +91,12 @@ class HomePage extends React.Component {
         });
   }
 
-  handleChange= (e) => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
-    console.log(name);
-  }
-
-  // renderSelectOptions = () => {
-  //   if(!this.props.lookupData.lookupData){return;} 
-  //   const selectList =   this.props.lookupData.lookupData.countries.map(function(option, i){
-  //         return <MenuItem key={option.id}value={option.id}>{option.name}</MenuItem>;       
-  //   })
-  //  return selectList;
+  // handleChange= (e) => {
+  //   const { name, value } = e.target;
+  //   this.setState({ [name]: value });
+  //   console.log(name);
   // }
+
 
   handleOnChange = (e, data) => {
     const { value } = data.value;
@@ -131,12 +105,29 @@ class HomePage extends React.Component {
     console.log(data.value);
     console.log(key);
   }
- 
+
+  handleSubmit(e) {
+
+  }
+
+  handleSubmitGetData = (e) => {
+      if(!this.props.lookupData.lookupData){return;} 
+      return (
+      <Formu 
+       countries = {this.props.lookupData.lookupData.countries}
+       onFormSubmit={this.handleSubmit}
+       onChange={this.handleOnChange}
+      /> )
+
+  }
+
   render() {
     const { value, testfield, gender, searchQuery, selected  } = this.state
     const { user, users } = this.props;
+    const { countries, cities } = this.props;
+    
     return (
-      <div className="col-md-6 col-md-offset-3">
+      <div className="col-md-6 col-md-offset-3">       
           <h1>Hi {user.firstName}!</h1>
           <p>You're logged in with React & JWT!!</p>
           <h3>Users from secure api end point:</h3>
@@ -154,86 +145,14 @@ class HomePage extends React.Component {
           <p>
               <Link to="/login">Logout</Link>
           </p>
-
           <h2>get data</h2>
-          
-          <Formu
-            onFormSubmit={this.handleSubmit}
-          />
+                <form name="form" onSubmit={this.handleSubmitGetData}>
+                    <div className="form-group">
+                        <button className="btn btn-primary">Get Data</button>
 
-          {/* <Form onSubmit={this.handleSubmit}>
-            <Dropdown
-              placeholder='Select Friend'
-              fluid
-              selection
-              name="drop"
-              options={friendOptions}
-              onChange={this.handleOnChange}
-            />
-            <Form.Group widths='equal'>      
-              <Form.Field
-                control={Input}
-                label='First name'
-                placeholder='First name'
-                name='field1'
-                // value={field1}
-                onChange={this.handleChange}
-              />
-              <Form.Field
-                control={Input}
-                label='Last name'
-                placeholder='Last name'
-              />
-              <Form.Field
-                control={Select}
-                label='Gender'
-                options={options}
-                placeholder='Gender'
-                name='gender'
-                value= {gender}              
-                onChange={this.handleChange}
-              />
-            </Form.Group>
-            <Form.Group inline>
-              <label>Quantity</label>
-              <Form.Field
-                control={Radio}
-                label='One'
-                value='1'
-                checked={value === '1'}
-                onChange={this.handleChange}
-              />
-              <Form.Field
-                control={Radio}
-                label='Two'
-                value='2'
-                checked={value === '2'}
-                onChange={this.handleChange}
-              />
-              <Form.Field
-                control={Radio}
-                name='Three'
-                label='Three'
-                value='3'
-                checked={value === '3'}
-                onChange={this.handleChange}
-              />
-            </Form.Group>
-            <Form.Field
-              control={TextArea}
-              label='About'
-              placeholder='Tell us more about you...'
-            />
-            <Form.Field
-              control={Checkbox}
-              label='I agree to the Terms and Conditions'
-            />
-          <div>
-            <label htmlFor="testfield">TestField</label>
-            <input type="text" className="form-control" name="testfield" value={testfield} onChange={this.handleChange} />
-          </div>
-          <Form.Field control={Button}>Submit</Form.Field>
-        </Form> */}
+                    </div>
+          </form> 
+          {this.handleSubmitGetData()} 
       </div>
     );
   }
