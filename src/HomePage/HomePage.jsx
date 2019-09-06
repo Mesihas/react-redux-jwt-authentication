@@ -50,15 +50,8 @@ class HomePage extends React.Component {
     super(props);
 
     this.state = {
-      username: '',
-      password: '',
-      submitted: false,
-      gender: 'Male',    /////
-      testfield: '',
-      field1: null,
-      searchQuery: '',
-      selected: null
-      };
+
+    }
 
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -81,14 +74,14 @@ class HomePage extends React.Component {
       }),
     };
 
-    return fetch(`${config.apiUrl}/values/formpost`, requestOptions)
-        .then(handleResponse)
-        .then(user => {
-            // store user details and jwt token in local storage to keep user logged in between page refreshes
-          //  localStorage.setItem('user', JSON.stringify(user));
+  return fetch(`${config.apiUrl}/values/formpost`, requestOptions)
+    .then(handleResponse)
+    .then(user => {
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+      //  localStorage.setItem('user', JSON.stringify(user));
 
-            //return user;
-        });
+        //return user;
+    });
   }
 
   // handleChange= (e) => {
@@ -97,62 +90,76 @@ class HomePage extends React.Component {
   //   console.log(name);
   // }
 
-
   handleOnChange = (e, data) => {
-    const { value } = data.value;
-    const { key } = data.options.find(o => o.value === data.value);
-    this.setState({ gender: data.value });
+   
+    console.log("-------------------"); 
+    if(data.options){   
+      const { key } = data.options.find(o => o.value === data.value);     
+      console.log(key);
+      // this.setState({ [key]: data.value });
+       const { value } = data.value;
+    }else if(data.type == "checkbox"){
+      const { checked } = data;
+      data.value = checked;
+    }
+    this.setState({ [data.name]: data.value });
+  
+    console.log(data.name);
     console.log(data.value);
-    console.log(key);
+    console.log("-------------------");
   }
 
-  handleSubmit(e) {
-
+  handleSubmit = (e) => {
+    console.log("submit locooooo");
   }
 
   handleSubmitGetData = (e) => {
-      if(!this.props.lookupData.lookupData){return;} 
+    if(!this.props.lookupData.lookupData){return;} 
       return (
       <Formu 
-       countries = {this.props.lookupData.lookupData.countries}
-       onFormSubmit={this.handleSubmit}
-       onChange={this.handleOnChange}
-      /> )
+        countries = {this.props.lookupData.lookupData.countries}
+        onFormSubmit={this.handleSubmit}
+        onChange={this.handleOnChange}
+      /> 
+    )
+  }
 
+  handleLogState = (e) =>  {
+    console.log("state from HomePage");
+    console.log(this.state);
+    console.log("-------------------");
   }
 
   render() {
     const { value, testfield, gender, searchQuery, selected  } = this.state
     const { user, users } = this.props;
     const { countries, cities } = this.props;
-    
-    return (
-      <div className="col-md-6 col-md-offset-3">       
-          <h1>Hi {user.firstName}!</h1>
-          <p>You're logged in with React & JWT!!</p>
-          <h3>Users from secure api end point:</h3>
-          {users.loading && <em>Loading users...</em>}
-          {users.error && <span className="text-danger">ERROR: {users.error}</span>}
-          {users.items &&
-              <ul>
-                  {users.items.map((user, index) =>
-                      <li key={user.id}>
-                          {user.firstName + ' ' + user.lastName}
-                      </li>
-                  )}
-              </ul>
-          }
-          <p>
-              <Link to="/login">Logout</Link>
-          </p>
-          <h2>get data</h2>
-                <form name="form" onSubmit={this.handleSubmitGetData}>
-                    <div className="form-group">
-                        <button className="btn btn-primary">Get Data</button>
 
-                    </div>
-          </form> 
-          {this.handleSubmitGetData()} 
+    return (
+      <div className="col-md-6 col-md-offset-1">       
+        <h4>Hi {user.firstName}!</h4>
+        <p>You're logged in with React & JWT!!</p>
+        {/* <h3>Users from secure api end point:</h3>
+        {users.loading && <em>Loading users...</em>}
+        {users.error && <span className="text-danger">ERROR: {users.error}</span>}
+        {users.items &&
+            <ul>
+                {users.items.map((user, index) =>
+                    <li key={user.id}>
+                        {user.firstName + ' ' + user.lastName}
+                    </li>
+                )}
+            </ul>
+        } */}
+        <p>
+          <Link to="/login">Logout</Link>
+        </p>
+        <button 
+          className="btn btn-primary" 
+          onClick={this.handleLogState}>
+            Log state
+        </button>         
+        {this.handleSubmitGetData()} 
       </div>
     );
   }
@@ -162,16 +169,15 @@ function handleResponse(response) {
   return response.text().then(text => {
       const data = text && JSON.parse(text);
       if (!response.ok) {
-          if (response.status === 401) {
-              // auto logout if 401 response returned from api
-              logout();
+        if (response.status === 401) {
+            // auto logout if 401 response returned from api
+            logout();
               location.reload(true);
-          }
+        }
 
-          const error = (data && data.message) || response.statusText;
-          return Promise.reject(error);
+        const error = (data && data.message) || response.statusText;
+        return Promise.reject(error);
       }
-
       return data;
   });
 }

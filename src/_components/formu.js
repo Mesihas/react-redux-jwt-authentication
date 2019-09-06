@@ -1,11 +1,4 @@
 import React from 'react';
-//import { Link } from 'react-router-dom';
-// import { connect } from 'react-redux';
-
-// import { userActions } from '../_actions';
-// import { formActions } from '../_actions';
-//import { Dropdown } from 'semantic-ui-react'
-
 import {
   Button,
   Checkbox,
@@ -23,18 +16,20 @@ class Formu extends React.Component {
     super(props);
     
     this.state = {
-      testfield: '',
-      field1: null,
       searchQuery: '',
-      selected: null,
+      country: null,
       searchQuery: '',
-      value:''
+      firstName:'',
+      lastName:'',
+      gender:null,
+      quantity: null,
+      
     };
   }
   
   handleSubmit = e => {
     e.preventDefault();
-    console.log("submit locooooo");
+    console.log(this.state);
     this.props.onFormSubmit(this.state.term);
   }
 
@@ -42,27 +37,24 @@ class Formu extends React.Component {
     const selectList = this.props.countries.map(function(option, i){
       return <MenuItem key={option.key} value={option.value}> {option.text}</MenuItem>;
     })
-   return selectList;
+    return selectList;
   }
 
   onChange = (e, data) => {
-    console.log(this.props)
-    this.setState({ selected: data.value });
+    // console.log(this.props)
+    this.setState({ [data.name]: data.value });
     this.props.onChange(e, data);
+    console.log("state from Form");
+    console.log(this.state);
+    console.log("-------------------");
   }
 
-  handleChange = (e, data) => {
-    console.log(this.props)
-    this.setState({ selected: data.value });
-    this.props.onChange(e, data);
-  }
   onSearchChange = (e, data) => {
-    console.log(data.searchQuery);
     this.setState({ searchQuery: data.searchQuery });
   }
 
   render(){
-    const { value, testfield, gender, searchQuery, selected  } = this.state
+    const { quantity, gender, searchQuery, country, firstName, lastName  } = this.state
  
     return (
       <div>
@@ -70,37 +62,33 @@ class Formu extends React.Component {
           <Dropdown
             button
             className='icon'
+            name="country"
             fluid
             labeled
             options={this.props.countries}
             search
             text={searchQuery}
             searchQuery={searchQuery}
-            value={selected}
+            value={country}
             onChange={this.onChange}
             onSearchChange={this.onSearchChange}
           />
-          {/* <Form.Field
-            control={Select}
-            label='paises'
-            options={this.renderSelectOptions()}
-            placeholder='paises'
-            name='paises'
-            value= {value}
-            onChange={this.handleChange}
-          /> */}
           <Form.Group widths='equal'>
             <Form.Field
               control={Input}
               label='First name'
               placeholder='First name'
-              name='field1'
-              onChange={this.handleChange}
+              name='firstName'
+              value= {firstName}
+              onChange={this.onChange}
             />
             <Form.Field
               control={Input}
               label='Last name'
               placeholder='Last name'
+              name='lastName'
+              value={lastName}
+              onChange={this.onChange}
             />
             <Form.Field
               control={Select}
@@ -109,44 +97,51 @@ class Formu extends React.Component {
               placeholder='Gender'
               name='gender'
               value= {gender}
-              onChange={this.handleChange}
+              onChange={this.onChange}
             />
           </Form.Group>
-          <Form.Group inline>
+           <Form.Group inline>
             <label>Quantity</label>
             <Form.Field
               control={Radio}
               label='One'
+              name="quantity"
               value='1'
-             checked={value === '1'}
-              onChange={this.handleChange}
+              checked={quantity === '1'}
+              onChange={this.onChange}
             />
             <Form.Field
               control={Radio}
               label='Two'
+              name="quantity"
               value='2'
-              checked={value === '2'}
-              onChange={this.handleChange}
+              checked={quantity === '2'}
+              onChange={this.onChange}
             />
             <Form.Field
               control={Radio}
               name='Three'
               label='Three'
+              name="quantity"
               value='3'
-              checked={value === '3'}
-              onChange={this.handleChange}
+              checked={quantity === '3'}
+              onChange={this.onChange}
             />
           </Form.Group>
-          <Form.Field
+         <Form.Field
             control={TextArea}
             label='About'
+            name='about'
             placeholder='Tell us more about you...'
+            onChange={this.onChange}
           />
           <Form.Field
             control={Checkbox}
             label='I agree to the Terms and Conditions'
+            name='agreenment'
+            onChange={this.onChange}
           />
-          <div>
+          {/* <div>
             <label htmlFor="testfield">TestField</label>
             <input
             type="text"
@@ -155,7 +150,7 @@ class Formu extends React.Component {
             value={testfield}
             onChange={this.handleChange}
             />
-          </div>
+          </div> */}
           <Form.Field control={Button}>Submit</Form.Field>
         </Form>
       </div>
