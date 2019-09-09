@@ -7,7 +7,7 @@ import Formu from '../_components/formu';
 import config from 'config';
 import { history } from '../_helpers';
 
-class HomePage extends React.Component {
+class RasoPage extends React.Component {
   constructor(props) {
     super(props);
 
@@ -81,30 +81,12 @@ class HomePage extends React.Component {
 
     return (
       <div className="col-md-6 col-md-offset-1">       
-        <h4>Hi {user.firstName}!</h4>
+       <h1>Ras page</h1>
         <p>You're logged in with React & JWT!!</p>
-        {/* <h3>Users from secure api end point:</h3>
-        {users.loading && <em>Loading users...</em>}
-        {users.error && <span className="text-danger">ERROR: {users.error}</span>}
-        {users.items &&
-            <ul>
-                {users.items.map((user, index) =>
-                    <li key={user.id}>
-                        {user.firstName + ' ' + user.lastName}
-                    </li>
-                )}
-            </ul>
-        } */}
+
         <p>
           <Link to="/login">Logout</Link>
-        </p>
-
-        <button 
-          className="btn btn-primary" 
-          onClick={this.handleLogState}>
-            Log state
-        </button>         
-        {this.handleSubmitGetData()} 
+        </p>      
       </div>
     );
   }
@@ -137,5 +119,5 @@ function mapStateToProps(state) {
     };
 }
 
-const connectedHomePage = connect(mapStateToProps)(HomePage);
-export { connectedHomePage as HomePage };
+const connectedHomePage = connect(mapStateToProps)(RasoPage);
+export { connectedHomePage as RasoPage };

@@ -7,6 +7,8 @@ import { alertActions } from '../_actions';
 import { PrivateRoute } from '../_components';
 import { HomePage } from '../HomePage';
 import { LoginPage } from '../LoginPage';
+import { RasoPage } from '../RasoPage';
+//import { history } from '../_helpers';
 
 class App extends React.Component {
     constructor(props) {
@@ -28,9 +30,11 @@ class App extends React.Component {
                         {alert.message &&
                             <div className={`alert ${alert.type}`}>{alert.message}</div>
                         }
+                        <p>Zarangandanga Systems</p>
                         <Router history={history}>
-                            <div>
+                            <div>                              
                                 <PrivateRoute exact path="/" component={HomePage} />
+                                <PrivateRoute exact path="/raso" component={RasoPage} />
                                 <Route path="/login" component={LoginPage} />
                             </div>
                         </Router>
@@ -50,3 +54,7 @@ function mapStateToProps(state) {
 
 const connectedApp = connect(mapStateToProps)(App);
 export { connectedApp as App }; 
+
+const xx = () => {
+  return <div>Helooooooooooooooooooooo</div>
+}

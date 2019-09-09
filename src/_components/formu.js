@@ -1,4 +1,7 @@
 import React from 'react';
+import config from 'config';
+import { formService } from '../_services';
+
 import {
   Button,
   Checkbox,
@@ -28,9 +31,22 @@ class Formu extends React.Component {
   }
   
   handleSubmit = e => {
-    e.preventDefault();
-    console.log(this.state);
-    this.props.onFormSubmit(this.state.term);
+   // e.preventDefault();
+   // console.log(this.state);
+   formService.handlePostFormAxios(this.state);
+
+    // formService.handlePostForm(this.state)
+    // .then(          
+    //     response => {
+    //       console.log("RESPONSE :");
+    //       console.log(response.Message);
+    //     },
+    //     error => {
+    //       console.log("ERROR :");
+    //       console.log(JSON.stringify(error));
+          
+    //     }
+    // );
   }
 
   renderSelectOptions = () => {
@@ -41,12 +57,11 @@ class Formu extends React.Component {
   }
 
   onChange = (e, data) => {
-    // console.log(this.props)
     this.setState({ [data.name]: data.value });
-    this.props.onChange(e, data);
-    console.log("state from Form");
-    console.log(this.state);
-    console.log("-------------------");
+   // this.props.onChange(e, data);
+    // console.log("state from Form");
+    // console.log(this.state);
+    // console.log("-------------------");
   }
 
   onSearchChange = (e, data) => {
@@ -141,16 +156,6 @@ class Formu extends React.Component {
             name='agreenment'
             onChange={this.onChange}
           />
-          {/* <div>
-            <label htmlFor="testfield">TestField</label>
-            <input
-            type="text"
-            className="form-control"
-            name="testfield"
-            value={testfield}
-            onChange={this.handleChange}
-            />
-          </div> */}
           <Form.Field control={Button}>Submit</Form.Field>
         </Form>
       </div>
