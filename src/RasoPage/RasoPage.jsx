@@ -83,7 +83,7 @@ class RasoPage extends React.Component {
       <div className="col-md-6 col-md-offset-1">       
        <h1>Ras page</h1>
         <p>You're logged in with React & JWT!!</p>
-
+        <Link to="/">Home</Link>
         <p>
           <Link to="/login">Logout</Link>
         </p>      

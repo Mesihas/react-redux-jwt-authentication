@@ -74,6 +74,7 @@ class HomePage extends React.Component {
     console.log("state from HomePage");
     console.log(this.state);
     console.log("-------------------");
+    
   }
 
   render() {
@@ -98,7 +99,7 @@ class HomePage extends React.Component {
         <p>
           <Link to="/login">Logout</Link>
         </p>
-
+        <Link to="/raso">Raso</Link>
         <button 
           className="btn btn-primary" 
           onClick={this.handleLogState}>
