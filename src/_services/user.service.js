@@ -19,9 +19,11 @@ function login(username, password) {
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem('user', JSON.stringify(user));
-
+            console.log("dale puta");
+            console.log(config.apiUrl);
             return user;
         });
+
 }
 
 function logout() {
@@ -35,7 +37,7 @@ function getAll() {
         headers: authHeader()
     };
 
-    return fetch(`${config.apiUrl}/users`, requestOptions).then(handleResponse);
+    return fetch(`http://10.0.1.104:8009/users`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {

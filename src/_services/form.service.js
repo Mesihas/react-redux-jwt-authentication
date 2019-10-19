@@ -15,10 +15,11 @@ function getLookupData() {
         headers: authHeader()
     };
 
-    return fetch(`${config.apiUrl}/values/getLookupData`, requestOptions).then(handleResponse);
+    return fetch(`http://10.0.1.104:8009/values/getLookupData`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {
+  
     return response.text().then(text => {
         const data = text && JSON.parse(text);
         if (!response.ok) {
@@ -55,7 +56,7 @@ function handlePostForm(data) {
     body: JSON.stringify(data),
    // mode: 'no cors'
   };
-  return fetch(`${config.apiUrl}/values/formpost`, requestOptions)
+  return fetch(`http://10.0.1.104:8009/values/formpost`, requestOptions)
     .then(function(response) {
       return response.json();
     })
@@ -70,7 +71,7 @@ function handlePostFormAxios(data){
     'Authorization': 'Bearer ' + user.token,
   }
 
-  axios.post(`${config.apiUrl}/values/formpost`, data, {
+  axios.post(`http://10.0.1.104:8009/values/formpost`, data, {
       headers: headers
     })
     .then((response) => {
